@@ -306,7 +306,7 @@ class MainWindow(QWidget):
 
         try:
             self.cursor.execute("update teacher set teacher = "
-                                "%s, subject = %s where id = %s", (row[0], row[1], (rowNum + 1)))
+                                "%s, subject = %s where teacher = 'write here'", (row[0], row[1],))
             self.conn.commit()
         except:
             QMessageBox.about(self, "Error", "Something wrong!")
