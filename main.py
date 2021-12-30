@@ -92,7 +92,6 @@ class MainWindow(QWidget):
 
         self._create_monday_table()
 
-
         self.update_shedule_button = QPushButton("Update")
         self.shbox2.addWidget(self.update_shedule_button)
         self.update_shedule_button.clicked.connect(self._update_shedule)
@@ -131,7 +130,6 @@ class MainWindow(QWidget):
         self.shbox0f.addWidget(self.friday_gbox0)
 
         self._create_monday_table0()
-
 
         self.update_shedule_button0 = QPushButton("Update")
         self.shbox02.addWidget(self.update_shedule_button0)
@@ -253,7 +251,6 @@ class MainWindow(QWidget):
         self.mvbox.addWidget(self.friday_table)
         self.friday_gbox.setLayout(self.mvbox)
 
-
     def _create_monday_table0(self):
         self.monday_table0 = QTableWidget()
         self.tuesday_table0 = QTableWidget()
@@ -318,11 +315,188 @@ class MainWindow(QWidget):
         self.mvbox3.addWidget(self.teacher_table)
         self.teacher_gbox.setLayout(self.mvbox3)
 
+    def _update_monday_table0(self):
+        self.conn.rollback()
+        self.monday_table0.setRowCount(0)
+        self.tuesday_table0.setRowCount(0)
+        self.wednesday_table0.setRowCount(0)
+        self.thursday_table0.setRowCount(0)
+        self.friday_table0.setRowCount(0)
+        self.cursor.execute(
+            "SELECT * FROM timetable where day = 'monday' and week = 'even' or day = 'write here' order by id;")
+        records = list(self.cursor.fetchall())
+
+        self.monday_table0.setRowCount(len(records) + 1)
+
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.monday_table0.setItem(i, 0,
+                                       QTableWidgetItem(str(r[0])))
+            self.monday_table0.setItem(i, 1,
+                                       QTableWidgetItem(str(r[1])))
+            self.monday_table0.setItem(i, 2,
+                                       QTableWidgetItem(str(r[5])))
+            self.monday_table0.setItem(i, 3,
+                                       QTableWidgetItem(str(r[2])))
+            self.monday_table0.setItem(i, 4,
+                                       QTableWidgetItem(str(r[3])))
+            self.monday_table0.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
+            self.monday_table0.setCellWidget(i, 6, joinButton)
+            self.monday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablee(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablee(num))
+        self.monday_table0.setItem(len(records), 0,
+                                   QTableWidgetItem('-'))
+        self.monday_table0.setItem(len(records), 1,
+                                   QTableWidgetItem('-'))
+        self.monday_table0.setItem(len(records), 2,
+                                   QTableWidgetItem('-'))
+        self.monday_table0.setItem(len(records), 3,
+                                   QTableWidgetItem('-'))
+        self.monday_table0.setItem(len(records), 4,
+                                   QTableWidgetItem('-'))
+        joinButton1: Union[QPushButton, QPushButton] = QPushButton("New")
+        self.monday_table0.setCellWidget(len(records), 6, joinButton1)
+        joinButton1.clicked.connect(lambda ch, num=len(records): self.insert_day())
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'tuesday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.tuesday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.tuesday_table0.setItem(i, 0,
+                                        QTableWidgetItem(str(r[0])))
+            self.tuesday_table0.setItem(i, 1,
+                                        QTableWidgetItem(str(r[1])))
+            self.tuesday_table0.setItem(i, 2,
+                                        QTableWidgetItem(str(r[5])))
+            self.tuesday_table0.setItem(i, 3,
+                                        QTableWidgetItem(str(r[2])))
+            self.tuesday_table0.setItem(i, 4,
+                                        QTableWidgetItem(str(r[3])))
+            self.tuesday_table0.setItem(i, 5,
+                                        QTableWidgetItem(str(r[4])))
+            self.tuesday_table0.setCellWidget(i, 6, joinButton)
+            self.tuesday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablete(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablete(num))
+        joinButton3 = QPushButton("New")
+        self.tuesday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.tuesday_table0.resizeRowsToContents()
+        self.monday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'wednesday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.wednesday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.wednesday_table0.setItem(i, 0,
+                                          QTableWidgetItem(str(r[0])))
+            self.wednesday_table0.setItem(i, 1,
+                                          QTableWidgetItem(str(r[1])))
+            self.wednesday_table0.setItem(i, 2,
+                                          QTableWidgetItem(str(r[5])))
+            self.wednesday_table0.setItem(i, 3,
+                                          QTableWidgetItem(str(r[2])))
+            self.wednesday_table0.setItem(i, 4,
+                                          QTableWidgetItem(str(r[3])))
+            self.wednesday_table0.setItem(i, 5,
+                                          QTableWidgetItem(str(r[4])))
+            self.wednesday_table0.setCellWidget(i, 6, joinButton)
+            self.wednesday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablewe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablewe(num))
+        joinButton3 = QPushButton("New")
+        self.wednesday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.wednesday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'thursday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.thursday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.thursday_table0.setItem(i, 0,
+                                         QTableWidgetItem(str(r[0])))
+            self.thursday_table0.setItem(i, 1,
+                                         QTableWidgetItem(str(r[1])))
+            self.thursday_table0.setItem(i, 2,
+                                         QTableWidgetItem(str(r[5])))
+            self.thursday_table0.setItem(i, 3,
+                                         QTableWidgetItem(str(r[2])))
+            self.thursday_table0.setItem(i, 4,
+                                         QTableWidgetItem(str(r[3])))
+            self.thursday_table0.setItem(i, 5,
+                                         QTableWidgetItem(str(r[4])))
+            self.thursday_table0.setCellWidget(i, 6, joinButton)
+            self.thursday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablethe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablethe(num))
+        joinButton3 = QPushButton("New")
+        self.thursday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.thursday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'friday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.friday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.friday_table0.setItem(i, 0,
+                                       QTableWidgetItem(str(r[0])))
+            self.friday_table0.setItem(i, 1,
+                                       QTableWidgetItem(str(r[1])))
+            self.friday_table0.setItem(i, 2,
+                                       QTableWidgetItem(str(r[5])))
+            self.friday_table0.setItem(i, 3,
+                                       QTableWidgetItem(str(r[2])))
+            self.friday_table0.setItem(i, 4,
+                                       QTableWidgetItem(str(r[3])))
+            self.friday_table0.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
+            self.friday_table0.setCellWidget(i, 6, joinButton)
+            self.friday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablefe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablefe(num))
+        joinButton3 = QPushButton("New")
+        self.friday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.friday_table0.resizeRowsToContents()
+
     def _update_monday_table(self):
         self.conn.rollback()
-        self.cursor.execute("SELECT * FROM timetable where day = 'monday' and week = 'odd' "
-                            "or day = 'write here' and week = 'write here' "
-                            "order by id;")
+        self.monday_table.setRowCount(0)
+        self.tuesday_table.setRowCount(0)
+        self.wednesday_table.setRowCount(0)
+        self.thursday_table.setRowCount(0)
+        self.friday_table.setRowCount(0)
+        self.cursor.execute(
+            "SELECT * FROM timetable where day = 'monday' and week = 'odd' or day = 'write here' order by id;")
         records = list(self.cursor.fetchall())
 
         self.monday_table.setRowCount(len(records) + 1)
@@ -337,81 +511,155 @@ class MainWindow(QWidget):
             self.monday_table.setItem(i, 1,
                                       QTableWidgetItem(str(r[1])))
             self.monday_table.setItem(i, 2,
-                                      QTableWidgetItem(str(r[2])))
+                                      QTableWidgetItem(str(r[5])))
             self.monday_table.setItem(i, 3,
-                                      QTableWidgetItem(str(r[3])))
+                                      QTableWidgetItem(str(r[2])))
             self.monday_table.setItem(i, 4,
+                                      QTableWidgetItem(str(r[3])))
+            self.monday_table.setItem(i, 5,
                                       QTableWidgetItem(str(r[4])))
-            self.monday_table.setCellWidget(i, 5, joinButton)
-            self.monday_table.setCellWidget(i, 6, joinButton2)
+            self.monday_table.setCellWidget(i, 6, joinButton)
+            self.monday_table.setCellWidget(i, 7, joinButton2)
             joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
             joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_table(num))
-        joinButton3 = QPushButton("New")
-        self.monday_table.setCellWidget(len(records), 5, joinButton3)
-        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.monday_table.setItem(len(records), 0,
+                                  QTableWidgetItem('-'))
+        self.monday_table.setItem(len(records), 1,
+                                  QTableWidgetItem('-'))
+        self.monday_table.setItem(len(records), 2,
+                                  QTableWidgetItem('-'))
+        self.monday_table.setItem(len(records), 3,
+                                  QTableWidgetItem('-'))
+        self.monday_table.setItem(len(records), 4,
+                                  QTableWidgetItem('-'))
+        joinButton1: Union[QPushButton, QPushButton] = QPushButton("New")
+        self.monday_table.setCellWidget(len(records), 6, joinButton1)
+        joinButton1.clicked.connect(lambda ch, num=len(records): self.insert_day())
+
         self.cursor.execute("SELECT * FROM timetable where day = 'tuesday' and week = 'odd' "
-                            "or day = 'write here' and week = 'write here' "
+                            "or day = 'write here' "
                             "order by id;")
         records = list(self.cursor.fetchall())
-
         self.tuesday_table.setRowCount(len(records) + 1)
-
         for i, r in enumerate(records):
             r = list(r)
             joinButton = QPushButton("Set")
             joinButton2 = QPushButton("Delete")
 
             self.tuesday_table.setItem(i, 0,
-                                      QTableWidgetItem(str(r[0])))
+                                       QTableWidgetItem(str(r[0])))
             self.tuesday_table.setItem(i, 1,
-                                      QTableWidgetItem(str(r[1])))
+                                       QTableWidgetItem(str(r[1])))
             self.tuesday_table.setItem(i, 2,
-                                      QTableWidgetItem(str(r[2])))
+                                       QTableWidgetItem(str(r[5])))
             self.tuesday_table.setItem(i, 3,
-                                      QTableWidgetItem(str(r[3])))
+                                       QTableWidgetItem(str(r[2])))
             self.tuesday_table.setItem(i, 4,
-                                      QTableWidgetItem(str(r[4])))
-            self.tuesday_table.setCellWidget(i, 5, joinButton)
-            self.tuesday_table.setCellWidget(i, 6, joinButton2)
-            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
-            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_table(num))
+                                       QTableWidgetItem(str(r[3])))
+            self.tuesday_table.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
+            self.tuesday_table.setCellWidget(i, 6, joinButton)
+            self.tuesday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tableto(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tableto(num))
         joinButton3 = QPushButton("New")
-        self.tuesday_table.setCellWidget(len(records), 5, joinButton3)
+        self.tuesday_table.setCellWidget(len(records), 6, joinButton3)
         joinButton3.clicked.connect(lambda ch: self.insert_day())
         self.tuesday_table.resizeRowsToContents()
+        self.monday_table.resizeRowsToContents()
 
-    def _update_monday_table0(self):
-        self.conn.rollback()
-        self.cursor.execute("SELECT * FROM timetable where day = 'monday' and week = 'even' "
-                            "or day = 'write here' and week = 'write here' "
+        self.cursor.execute("SELECT * FROM timetable where day = 'wednesday' and week = 'odd' "
+                            "or day = 'write here' "
                             "order by id;")
         records = list(self.cursor.fetchall())
-
-        self.monday_table0.setRowCount(len(records) + 1)
-
+        self.wednesday_table.setRowCount(len(records) + 1)
         for i, r in enumerate(records):
             r = list(r)
             joinButton = QPushButton("Set")
             joinButton2 = QPushButton("Delete")
 
-            self.monday_table0.setItem(i, 0,
-                                      QTableWidgetItem(str(r[0])))
-            self.monday_table0.setItem(i, 1,
-                                      QTableWidgetItem(str(r[1])))
-            self.monday_table0.setItem(i, 2,
-                                      QTableWidgetItem(str(r[2])))
-            self.monday_table0.setItem(i, 3,
-                                      QTableWidgetItem(str(r[3])))
-            self.monday_table0.setItem(i, 4,
-                                      QTableWidgetItem(str(r[4])))
-            self.monday_table0.setCellWidget(i, 5, joinButton)
-            self.monday_table0.setCellWidget(i, 6, joinButton2)
-            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
-            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_table(num))
+            self.wednesday_table.setItem(i, 0,
+                                         QTableWidgetItem(str(r[0])))
+            self.wednesday_table.setItem(i, 1,
+                                         QTableWidgetItem(str(r[1])))
+            self.wednesday_table.setItem(i, 2,
+                                         QTableWidgetItem(str(r[5])))
+            self.wednesday_table.setItem(i, 3,
+                                         QTableWidgetItem(str(r[2])))
+            self.wednesday_table.setItem(i, 4,
+                                         QTableWidgetItem(str(r[3])))
+            self.wednesday_table.setItem(i, 5,
+                                         QTableWidgetItem(str(r[4])))
+            self.wednesday_table.setCellWidget(i, 6, joinButton)
+            self.wednesday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablewo(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablewo(num))
         joinButton3 = QPushButton("New")
-        self.monday_table0.setCellWidget(len(records), 5, joinButton3)
+        self.wednesday_table.setCellWidget(len(records), 6, joinButton3)
         joinButton3.clicked.connect(lambda ch: self.insert_day())
-        self.monday_table0.resizeRowsToContents()
+        self.wednesday_table.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'thursday' and week = 'odd' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.thursday_table.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.thursday_table.setItem(i, 0,
+                                        QTableWidgetItem(str(r[0])))
+            self.thursday_table.setItem(i, 1,
+                                        QTableWidgetItem(str(r[1])))
+            self.thursday_table.setItem(i, 2,
+                                        QTableWidgetItem(str(r[5])))
+            self.thursday_table.setItem(i, 3,
+                                        QTableWidgetItem(str(r[2])))
+            self.thursday_table.setItem(i, 4,
+                                        QTableWidgetItem(str(r[3])))
+            self.thursday_table.setItem(i, 5,
+                                        QTableWidgetItem(str(r[4])))
+            self.thursday_table.setCellWidget(i, 6, joinButton)
+            self.thursday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tabletho(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tabletho(num))
+        joinButton3 = QPushButton("New")
+        self.thursday_table.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.thursday_table.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'friday' and week = 'odd' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.friday_table.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.friday_table.setItem(i, 0,
+                                      QTableWidgetItem(str(r[0])))
+            self.friday_table.setItem(i, 1,
+                                      QTableWidgetItem(str(r[1])))
+            self.friday_table.setItem(i, 2,
+                                      QTableWidgetItem(str(r[5])))
+            self.friday_table.setItem(i, 3,
+                                      QTableWidgetItem(str(r[2])))
+            self.friday_table.setItem(i, 4,
+                                      QTableWidgetItem(str(r[3])))
+            self.friday_table.setItem(i, 5,
+                                      QTableWidgetItem(str(r[4])))
+            self.friday_table.setCellWidget(i, 6, joinButton)
+            self.friday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablefo(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablefo(num))
+        joinButton3 = QPushButton("New")
+        self.friday_table.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.friday_table.resizeRowsToContents()
 
     def insert_day(self):
         self.conn.rollback()
@@ -419,7 +667,8 @@ class MainWindow(QWidget):
             "INSERT INTO timetable (day, subject, room, time, week) values('write here',"
             " 'maths','write here', 'write here', 'write here');", )
         self.conn.commit()
-        self._update_shedule()
+        self._update_monday_table()
+        self._update_monday_table0()
 
     def _update_teacher_table(self):
         self.conn.rollback()
@@ -478,11 +727,13 @@ class MainWindow(QWidget):
 
         try:
             self.cursor.execute(
-                "update timetable set day='{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(row[1],
-                                                                                                          row[2],
-                                                                                                          row[3],
-                                                                                                          row[4],
-                                                                                                          row[0]))
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
             self.conn.commit()
         except:
             QMessageBox.about(self, "Error", "Something wrong!")
@@ -499,11 +750,197 @@ class MainWindow(QWidget):
 
         try:
             self.cursor.execute(
-                "update timetable set day='{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(row[1],
-                                                                                                          row[2],
-                                                                                                          row[3],
-                                                                                                          row[4],
-                                                                                                          row[0]))
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablewo(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.wednesday_table.columnCount()):
+            try:
+                row.append(self.wednesday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tabletho(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.thursday_table.columnCount()):
+            try:
+                row.append(self.thursday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablefo(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.friday_table.columnCount()):
+            try:
+                row.append(self.friday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablee(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.monday_table0.columnCount()):
+            try:
+                row.append(self.monday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablete(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.tuesday_table0.columnCount()):
+            try:
+                row.append(self.tuesday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablewe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.wednesday_table0.columnCount()):
+            try:
+                row.append(self.wednesday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablethe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.thursday_table0.columnCount()):
+            try:
+                row.append(self.thursday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
+            self.conn.commit()
+        except:
+            QMessageBox.about(self, "Error", "Something wrong!")
+
+    def _change_day_from_tablefe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.friday_table0.columnCount()):
+            try:
+                row.append(self.friday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum)
+
+        try:
+            self.cursor.execute(
+                "update timetable set day='{}', week = '{}', subject='{}', room='{}', time='{}'  WHERE id='{}'".format(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[0]))
             self.conn.commit()
         except:
             QMessageBox.about(self, "Error", "Something wrong!")
@@ -517,7 +954,115 @@ class MainWindow(QWidget):
             except:
                 row.append(None)
         print(row, rowNum + 5)
-        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0],))
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tableto(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.tuesday_table.columnCount()):
+            try:
+                row.append(self.tuesday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablewo(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.wednesday_table.columnCount()):
+            try:
+                row.append(self.wednesday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tabletho(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.thursday_table.columnCount()):
+            try:
+                row.append(self.thursday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablefo(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.friday_table.columnCount()):
+            try:
+                row.append(self.friday_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablee(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.monday_table0.columnCount()):
+            try:
+                row.append(self.monday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablete(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.tuesday_table0_table.columnCount()):
+            try:
+                row.append(self.thursday_table0.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablewe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.wednesday_table0_table.columnCount()):
+            try:
+                row.append(self.wednesday_table0day_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablethe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.thursday_table0monday_table.columnCount()):
+            try:
+                row.append(self.thursday_table0_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
+        self.conn.commit()
+
+    def _delete_day_from_tablefe(self, rowNum):
+        self.conn.rollback()
+        row = list()
+        for column in range(self.friday_table0_table.columnCount()):
+            try:
+                row.append(self.friday_table0_table.item(rowNum, column).text())
+            except:
+                row.append(None)
+        print(row, rowNum + 5)
+        self.cursor.execute("DELETE FROM timetable WHERE id = '{}'".format(row[0], ))
         self.conn.commit()
 
     def _delete_teacher_from_table(self, rowNum):
@@ -529,7 +1074,7 @@ class MainWindow(QWidget):
             except:
                 row.append(None)
         print(row, rowNum + 5)
-        self.cursor.execute("DELETE FROM teacher WHERE id='{}'".format(row[0],))
+        self.cursor.execute("DELETE FROM teacher WHERE id='{}'".format(row[0], ))
         self.conn.commit()
         self._update_teacher()
 
@@ -568,8 +1113,13 @@ class MainWindow(QWidget):
     def _update_shedule(self):
         self.conn.rollback()
         self.monday_table.setRowCount(0)
+        self.tuesday_table.setRowCount(0)
+        self.wednesday_table.setRowCount(0)
+        self.thursday_table.setRowCount(0)
+        self.friday_table.setRowCount(0)
         self._update_monday_table()
-        self.cursor.execute("SELECT * FROM timetable where day = 'monday' and week = 'odd' or day = 'write here' order by id;")
+        self.cursor.execute(
+            "SELECT * FROM timetable where day = 'monday' and week = 'odd' or day = 'write here' order by id;")
         records = list(self.cursor.fetchall())
 
         self.monday_table.setRowCount(len(records) + 1)
@@ -584,13 +1134,13 @@ class MainWindow(QWidget):
             self.monday_table.setItem(i, 1,
                                       QTableWidgetItem(str(r[1])))
             self.monday_table.setItem(i, 2,
-                                      QTableWidgetItem(str(r[2])))
-            self.monday_table.setItem(i, 3,
-                                      QTableWidgetItem(str(r[3])))
-            self.monday_table.setItem(i, 4,
-                                      QTableWidgetItem(str(r[4])))
-            self.monday_table.setItem(i, 4,
                                       QTableWidgetItem(str(r[5])))
+            self.monday_table.setItem(i, 3,
+                                      QTableWidgetItem(str(r[2])))
+            self.monday_table.setItem(i, 4,
+                                      QTableWidgetItem(str(r[3])))
+            self.monday_table.setItem(i, 5,
+                                      QTableWidgetItem(str(r[4])))
             self.monday_table.setCellWidget(i, 6, joinButton)
             self.monday_table.setCellWidget(i, 7, joinButton2)
             joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
@@ -608,12 +1158,12 @@ class MainWindow(QWidget):
         joinButton1: Union[QPushButton, QPushButton] = QPushButton("New")
         self.monday_table.setCellWidget(len(records), 6, joinButton1)
         joinButton1.clicked.connect(lambda ch, num=len(records): self.insert_day())
-        self.tuesday_table.setRowCount(len(records) + 1)
+
         self.cursor.execute("SELECT * FROM timetable where day = 'tuesday' and week = 'odd' "
-                            "or day = 'write here' and week = 'write here' "
+                            "or day = 'write here' "
                             "order by id;")
         records = list(self.cursor.fetchall())
-
+        self.tuesday_table.setRowCount(len(records) + 1)
         for i, r in enumerate(records):
             r = list(r)
             joinButton = QPushButton("Set")
@@ -624,13 +1174,13 @@ class MainWindow(QWidget):
             self.tuesday_table.setItem(i, 1,
                                        QTableWidgetItem(str(r[1])))
             self.tuesday_table.setItem(i, 2,
-                                       QTableWidgetItem(str(r[2])))
-            self.tuesday_table.setItem(i, 3,
-                                       QTableWidgetItem(str(r[3])))
-            self.tuesday_table.setItem(i, 4,
-                                       QTableWidgetItem(str(r[4])))
-            self.tuesday_table.setItem(i, 5,
                                        QTableWidgetItem(str(r[5])))
+            self.tuesday_table.setItem(i, 3,
+                                       QTableWidgetItem(str(r[2])))
+            self.tuesday_table.setItem(i, 4,
+                                       QTableWidgetItem(str(r[3])))
+            self.tuesday_table.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
             self.tuesday_table.setCellWidget(i, 6, joinButton)
             self.tuesday_table.setCellWidget(i, 7, joinButton2)
             joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
@@ -641,11 +1191,109 @@ class MainWindow(QWidget):
         self.tuesday_table.resizeRowsToContents()
         self.monday_table.resizeRowsToContents()
 
+        self.cursor.execute("SELECT * FROM timetable where day = 'wednesday' and week = 'odd' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.wednesday_table.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.wednesday_table.setItem(i, 0,
+                                         QTableWidgetItem(str(r[0])))
+            self.wednesday_table.setItem(i, 1,
+                                         QTableWidgetItem(str(r[1])))
+            self.wednesday_table.setItem(i, 2,
+                                         QTableWidgetItem(str(r[5])))
+            self.wednesday_table.setItem(i, 3,
+                                         QTableWidgetItem(str(r[2])))
+            self.wednesday_table.setItem(i, 4,
+                                         QTableWidgetItem(str(r[3])))
+            self.wednesday_table.setItem(i, 5,
+                                         QTableWidgetItem(str(r[4])))
+            self.wednesday_table.setCellWidget(i, 6, joinButton)
+            self.wednesday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablewo(num))
+        joinButton3 = QPushButton("New")
+        self.wednesday_table.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.wednesday_table.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'thursday' and week = 'odd' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.thursday_table.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.thursday_table.setItem(i, 0,
+                                        QTableWidgetItem(str(r[0])))
+            self.thursday_table.setItem(i, 1,
+                                        QTableWidgetItem(str(r[1])))
+            self.thursday_table.setItem(i, 2,
+                                        QTableWidgetItem(str(r[5])))
+            self.thursday_table.setItem(i, 3,
+                                        QTableWidgetItem(str(r[2])))
+            self.thursday_table.setItem(i, 4,
+                                        QTableWidgetItem(str(r[3])))
+            self.thursday_table.setItem(i, 5,
+                                        QTableWidgetItem(str(r[4])))
+            self.thursday_table.setCellWidget(i, 6, joinButton)
+            self.thursday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tabletho(num))
+        joinButton3 = QPushButton("New")
+        self.thursday_table.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.thursday_table.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'friday' and week = 'odd' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.friday_table.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.friday_table.setItem(i, 0,
+                                      QTableWidgetItem(str(r[0])))
+            self.friday_table.setItem(i, 1,
+                                      QTableWidgetItem(str(r[1])))
+            self.friday_table.setItem(i, 2,
+                                      QTableWidgetItem(str(r[5])))
+            self.friday_table.setItem(i, 3,
+                                      QTableWidgetItem(str(r[2])))
+            self.friday_table.setItem(i, 4,
+                                      QTableWidgetItem(str(r[3])))
+            self.friday_table.setItem(i, 5,
+                                      QTableWidgetItem(str(r[4])))
+            self.friday_table.setCellWidget(i, 6, joinButton)
+            self.friday_table.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablefo(num))
+        joinButton3 = QPushButton("New")
+        self.friday_table.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.friday_table.resizeRowsToContents()
+
     def _update_shedule0(self):
+
         self.conn.rollback()
-        self.monday_table.setRowCount(0)
-        self._update_monday_table0()
-        self.cursor.execute("SELECT * FROM timetable where day = 'monday' and week = 'even' or day = 'write here' order by id;")
+        self.monday_table0.setRowCount(0)
+        self.tuesday_table0.setRowCount(0)
+        self.wednesday_table0.setRowCount(0)
+        self.thursday_table0.setRowCount(0)
+        self.friday_table0.setRowCount(0)
+        self.cursor.execute(
+            "SELECT * FROM timetable where day = 'monday' and week = 'even' or day = 'write here' order by id;")
         records = list(self.cursor.fetchall())
 
         self.monday_table0.setRowCount(len(records) + 1)
@@ -656,33 +1304,159 @@ class MainWindow(QWidget):
             joinButton2 = QPushButton("Delete")
 
             self.monday_table0.setItem(i, 0,
-                                      QTableWidgetItem(str(r[0])))
+                                       QTableWidgetItem(str(r[0])))
             self.monday_table0.setItem(i, 1,
-                                      QTableWidgetItem(str(r[1])))
+                                       QTableWidgetItem(str(r[1])))
             self.monday_table0.setItem(i, 2,
-                                      QTableWidgetItem(str(r[2])))
+                                       QTableWidgetItem(str(r[5])))
             self.monday_table0.setItem(i, 3,
-                                      QTableWidgetItem(str(r[3])))
+                                       QTableWidgetItem(str(r[2])))
             self.monday_table0.setItem(i, 4,
-                                      QTableWidgetItem(str(r[4])))
-            self.monday_table0.setCellWidget(i, 5, joinButton)
-            self.monday_table0.setCellWidget(i, 6, joinButton2)
-            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
-            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_table(num))
+                                       QTableWidgetItem(str(r[3])))
+            self.monday_table0.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
+            self.monday_table0.setCellWidget(i, 6, joinButton)
+            self.monday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablee(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablee(num))
         self.monday_table0.setItem(len(records), 0,
-                                  QTableWidgetItem('-'))
+                                   QTableWidgetItem('-'))
         self.monday_table0.setItem(len(records), 1,
-                                  QTableWidgetItem('-'))
+                                   QTableWidgetItem('-'))
         self.monday_table0.setItem(len(records), 2,
-                                  QTableWidgetItem('-'))
+                                   QTableWidgetItem('-'))
         self.monday_table0.setItem(len(records), 3,
-                                  QTableWidgetItem('-'))
+                                   QTableWidgetItem('-'))
         self.monday_table0.setItem(len(records), 4,
-                                  QTableWidgetItem('-'))
+                                   QTableWidgetItem('-'))
         joinButton1: Union[QPushButton, QPushButton] = QPushButton("New")
-        self.monday_table0.setCellWidget(len(records), 5, joinButton1)
+        self.monday_table0.setCellWidget(len(records), 6, joinButton1)
         joinButton1.clicked.connect(lambda ch, num=len(records): self.insert_day())
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'tuesday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.tuesday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.tuesday_table0.setItem(i, 0,
+                                        QTableWidgetItem(str(r[0])))
+            self.tuesday_table0.setItem(i, 1,
+                                        QTableWidgetItem(str(r[1])))
+            self.tuesday_table0.setItem(i, 2,
+                                        QTableWidgetItem(str(r[5])))
+            self.tuesday_table0.setItem(i, 3,
+                                        QTableWidgetItem(str(r[2])))
+            self.tuesday_table0.setItem(i, 4,
+                                        QTableWidgetItem(str(r[3])))
+            self.tuesday_table0.setItem(i, 5,
+                                        QTableWidgetItem(str(r[4])))
+            self.tuesday_table0.setCellWidget(i, 6, joinButton)
+            self.tuesday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablete(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablete(num))
+        joinButton3 = QPushButton("New")
+        self.tuesday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.tuesday_table0.resizeRowsToContents()
         self.monday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'wednesday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.wednesday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.wednesday_table0.setItem(i, 0,
+                                          QTableWidgetItem(str(r[0])))
+            self.wednesday_table0.setItem(i, 1,
+                                          QTableWidgetItem(str(r[1])))
+            self.wednesday_table0.setItem(i, 2,
+                                          QTableWidgetItem(str(r[5])))
+            self.wednesday_table0.setItem(i, 3,
+                                          QTableWidgetItem(str(r[2])))
+            self.wednesday_table0.setItem(i, 4,
+                                          QTableWidgetItem(str(r[3])))
+            self.wednesday_table0.setItem(i, 5,
+                                          QTableWidgetItem(str(r[4])))
+            self.wednesday_table0.setCellWidget(i, 6, joinButton)
+            self.wednesday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablewe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablewe(num))
+        joinButton3 = QPushButton("New")
+        self.wednesday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.wednesday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'thursday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.thursday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.thursday_table0.setItem(i, 0,
+                                         QTableWidgetItem(str(r[0])))
+            self.thursday_table0.setItem(i, 1,
+                                         QTableWidgetItem(str(r[1])))
+            self.thursday_table0.setItem(i, 2,
+                                         QTableWidgetItem(str(r[5])))
+            self.thursday_table0.setItem(i, 3,
+                                         QTableWidgetItem(str(r[2])))
+            self.thursday_table0.setItem(i, 4,
+                                         QTableWidgetItem(str(r[3])))
+            self.thursday_table0.setItem(i, 5,
+                                         QTableWidgetItem(str(r[4])))
+            self.thursday_table0.setCellWidget(i, 6, joinButton)
+            self.thursday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablethe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablethe(num))
+        joinButton3 = QPushButton("New")
+        self.thursday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.thursday_table0.resizeRowsToContents()
+
+        self.cursor.execute("SELECT * FROM timetable where day = 'friday' and week = 'even' "
+                            "or day = 'write here' "
+                            "order by id;")
+        records = list(self.cursor.fetchall())
+        self.friday_table0.setRowCount(len(records) + 1)
+        for i, r in enumerate(records):
+            r = list(r)
+            joinButton = QPushButton("Set")
+            joinButton2 = QPushButton("Delete")
+
+            self.friday_table0.setItem(i, 0,
+                                       QTableWidgetItem(str(r[0])))
+            self.friday_table0.setItem(i, 1,
+                                       QTableWidgetItem(str(r[1])))
+            self.friday_table0.setItem(i, 2,
+                                       QTableWidgetItem(str(r[5])))
+            self.friday_table0.setItem(i, 3,
+                                       QTableWidgetItem(str(r[2])))
+            self.friday_table0.setItem(i, 4,
+                                       QTableWidgetItem(str(r[3])))
+            self.friday_table0.setItem(i, 5,
+                                       QTableWidgetItem(str(r[4])))
+            self.friday_table0.setCellWidget(i, 6, joinButton)
+            self.friday_table0.setCellWidget(i, 7, joinButton2)
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tablefe(num))
+            joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tablefe(num))
+        joinButton3 = QPushButton("New")
+        self.friday_table0.setCellWidget(len(records), 6, joinButton3)
+        joinButton3.clicked.connect(lambda ch: self.insert_day())
+        self.friday_table0.resizeRowsToContents()
 
     def _update_subject(self):
         self.conn.rollback()
