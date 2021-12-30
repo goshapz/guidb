@@ -962,7 +962,7 @@ class MainWindow(QWidget):
         row = list()
         for column in range(self.tuesday_table.columnCount()):
             try:
-                row.append(self.tuesday_table0.item(rowNum, column).text())
+                row.append(self.tuesday_table.item(rowNum, column).text())
             except:
                 row.append(None)
         print(row, rowNum + 5)
@@ -1020,9 +1020,9 @@ class MainWindow(QWidget):
     def _delete_day_from_tablete(self, rowNum):
         self.conn.rollback()
         row = list()
-        for column in range(self.tuesday_table0_table.columnCount()):
+        for column in range(self.tuesday_table0.columnCount()):
             try:
-                row.append(self.thursday_table0.item(rowNum, column).text())
+                row.append(self.tuesday_table0.item(rowNum, column).text())
             except:
                 row.append(None)
         print(row, rowNum + 5)
@@ -1032,9 +1032,9 @@ class MainWindow(QWidget):
     def _delete_day_from_tablewe(self, rowNum):
         self.conn.rollback()
         row = list()
-        for column in range(self.wednesday_table0_table.columnCount()):
+        for column in range(self.wednesday_table0.columnCount()):
             try:
-                row.append(self.wednesday_table0day_table.item(rowNum, column).text())
+                row.append(self.wednesday_table0.item(rowNum, column).text())
             except:
                 row.append(None)
         print(row, rowNum + 5)
@@ -1044,9 +1044,9 @@ class MainWindow(QWidget):
     def _delete_day_from_tablethe(self, rowNum):
         self.conn.rollback()
         row = list()
-        for column in range(self.thursday_table0monday_table.columnCount()):
+        for column in range(self.thursday_table0.columnCount()):
             try:
-                row.append(self.thursday_table0_table.item(rowNum, column).text())
+                row.append(self.thursday_table0.item(rowNum, column).text())
             except:
                 row.append(None)
         print(row, rowNum + 5)
@@ -1056,9 +1056,9 @@ class MainWindow(QWidget):
     def _delete_day_from_tablefe(self, rowNum):
         self.conn.rollback()
         row = list()
-        for column in range(self.friday_table0_table.columnCount()):
+        for column in range(self.friday_table0.columnCount()):
             try:
-                row.append(self.friday_table0_table.item(rowNum, column).text())
+                row.append(self.friday_table0.item(rowNum, column).text())
             except:
                 row.append(None)
         print(row, rowNum + 5)
@@ -1246,7 +1246,7 @@ class MainWindow(QWidget):
                                         QTableWidgetItem(str(r[4])))
             self.thursday_table.setCellWidget(i, 6, joinButton)
             self.thursday_table.setCellWidget(i, 7, joinButton2)
-            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_table(num))
+            joinButton2.clicked.connect(lambda ch, num=i: self._delete_day_from_tabletho(num))
             joinButton.clicked.connect(lambda ch, num=i: self._change_day_from_tabletho(num))
         joinButton3 = QPushButton("New")
         self.thursday_table.setCellWidget(len(records), 6, joinButton3)
